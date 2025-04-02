@@ -1,19 +1,15 @@
-from threading import Thread
+# VideoStream.py for Laptop (USB/OpenCV camera)
 import cv2
-from picamera2 import Picamera2
-import time
+from threading import Thread
 
 class VideoStream:
-    def __init__(self, resolution=(640, 480), framerate=30):
-        self.frame = None
+    def __init__(self, resolution=(640, 480), framerate=30, src=0):
+        self.stream = cv2.VideoCapture(src)
+        self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, resolution[0])
+        self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, resolution[1])
+        self.stream.set(cv2.CAP_PROP_FPS, framerate)
+        self.grabbed, self.frame = self.stream.read()
         self.stopped = False
-
-        self.camera = Picamera2()
-        config = self.camera.create_video_configuration(main={"size": resolution, "format": "RGB888"})
-        self.camera.configure(config)
-        self.camera.set_controls({"FrameRate": framerate})
-        self.camera.start()
-        time.sleep(2)
 
     def start(self):
         Thread(target=self.update, args=(), daemon=True).start()
@@ -21,14 +17,11 @@ class VideoStream:
 
     def update(self):
         while not self.stopped:
-            self.frame = self.camera.capture_array()
+            self.grabbed, self.frame = self.stream.read()
 
     def read(self):
-        while self.frame is None:
-            time.sleep(0.01)
-        return cv2.cvtColor(self.frame, cv2.COLOR_RGB2BGR)
+        return self.frame
 
     def stop(self):
         self.stopped = True
-        time.sleep(0.1)
-        self.camera.stop()
+        self.stream.release()
