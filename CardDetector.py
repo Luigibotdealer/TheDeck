@@ -4,7 +4,7 @@ import numpy as np
 import time
 import os
 import Cards
-from VideoStream import VideoStream
+import VideoStream
 
 ### ----------------------------------- THIS IS THE MAIN SCRIPT -------------------------------- ####
 
