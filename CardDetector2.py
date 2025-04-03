@@ -118,6 +118,22 @@ while cam_quit == 0:
     key = cv2.waitKey(1) & 0xFF
     if key == ord("q"):
         cam_quit = 1
+
+    # Calculate confidence percentages (inverted and clamped)
+    def confidence(diff, max_val=100):
+        return max(0, 100 - diff) / max_val
+
+    rank_conf = confidence(cards[k].rank_diff)
+    suit_conf = confidence(cards[k].suit_diff)
+
+    # Build confidence string
+    conf_text = f"{cards[k].best_rank_match} of {cards[k].best_suit_match} ({rank_conf:.0%}, {suit_conf:.0%})"
+
+    # Draw confidence next to card center
+    cv2.putText(image, conf_text,
+                (cards[k].center[0] - 60, cards[k].center[1] + 30),
+                font, 0.6, (0, 255, 0), 2, cv2.LINE_AA)
+
         
 
 # Close all windows and close the PiCamera video stream.
