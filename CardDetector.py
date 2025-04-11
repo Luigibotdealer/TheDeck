@@ -67,14 +67,17 @@ while cam_quit == 0:
                     # Create a card object and extract properties
                     cards.append(Cards.preprocess_card(cnts_sort[i], image))
 
-                    # Find the best rank and suit match for the card
+                    # Find the best rank match
                     cards[k].best_rank_match, cards[k].rank_diff = Cards.match_rank_only(
                         cards[k], train_ranks)
 
+                    # ✅ Log the result
+                    print(f"[Card {k+1}] Detected: {cards[k].best_rank_match} (Score: {cards[k].rank_diff})")
 
-                    # Draw center point and match result on the image
+                    # Draw result on the image
                     image = Cards.draw_results(image, cards[k])
                     k += 1
+
             
             # Draw card contours on image
             if len(cards) != 0:
