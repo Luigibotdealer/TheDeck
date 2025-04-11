@@ -82,11 +82,12 @@ while cam_quit == 0:
 
         # --- IF WE'VE DETECTED THE EXPECTED NUMBER OF CARDS, PRINT THEM OUT --- #
         if len(detected_ranks) == number_of_cards:
-            print(f"\n🎴 Detected {number_of_cards} cards:")
-            # Print rank + diff for each card
-            for idx, card in enumerate(cards):
-                print(f"  Card {idx + 1}: {card.best_rank_match} {card.rank_diff}")
-            # cam_quit = 1  # If you want to stop after detecting the set
+            if "Unknown" not in detected_ranks:
+                print(f"\n{detected_ranks}")
+                print("ALL CARDS RECOGNISED")
+                cam_quit = 1  # Stop the program after successful recognition
+            # Else: skip printing anything if there's an Unknown
+
 
         # --- DRAW THE FRAMERATE IN THE CORNER --- #
         cv2.putText(image, "FPS: " + str(int(frame_rate_calc)), (10, 26),
