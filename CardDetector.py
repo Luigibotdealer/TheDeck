@@ -16,6 +16,9 @@ IM_WIDTH = 1280
 IM_HEIGHT = 720 
 FRAME_RATE = 10
 
+# Placeholder: replace with network input later
+number_of_cards = 4  # Example: wait until 2 cards are detected
+
 ## Initialize calculated frame rate because it's calculated AFTER the first time it's displayed
 frame_rate_calc = 1
 freq = cv2.getTickFrequency()
@@ -55,34 +58,33 @@ while cam_quit == 0:
         # Find and sort the contours of all cards in the image (query cards)
         cnts_sort, cnt_is_card = Cards.find_cards(pre_proc)
 
-        # If there are no contours, do nothing
-        if len(cnts_sort) != 0:
-            # Initialize a new "cards" list to assign the card objects.
-            cards = []
-            k = 0
+        cards = []
+        detected_ranks = []
 
-            # For each contour detected:
-            for i in range(len(cnts_sort)):
-                if cnt_is_card[i] == 1:
-                    # Create a card object and extract properties
-                    cards.append(Cards.preprocess_card(cnts_sort[i], image))
+        for i in range(len(cnts_sort)):
+            if cnt_is_card[i] == 1:
+                card = Cards.preprocess_card(cnts_sort[i], image)
+                # compares the card to the trained ranks and finds the best match
+                rank, diff = Cards.match_rank_only(card, train_ranks)
 
-                    # Find the best rank match
-                    cards[k].best_rank_match, cards[k].rank_diff = Cards.match_rank_only(
-                        cards[k], train_ranks)
+                # It stores the match result into the query card object so it can be drawn later
+                card.best_rank_match = rank
+                card.rank_diff = diff
+                
 
-                    # ✅ Log the result
-                    print(f"[Card {k+1}] Detected: {cards[k].best_rank_match} (Score: {cards[k].rank_diff})")
+                image = Cards.draw_results(image, card)
+                cards.append(card)
+                detected_ranks.append(rank)
 
-                    # Draw result on the image
-                    image = Cards.draw_results(image, cards[k])
-                    k += 1
-
+        # Check if we have the expected number of cards
+        if len(detected_ranks) == number_of_cards:
+            print(f"\n🎴 Detected {number_of_cards} cards:")
+            for idx, rank in enumerate(detected_ranks):
+                print(f"  Card {idx + 1}: {rank}")
             
-            # Draw card contours on image
-            if len(cards) != 0:
-                temp_cnts = [card.contour for card in cards]
-                cv2.drawContours(image, temp_cnts, -1, (255, 0, 0), 2)
+            # OPTIONAL: Exit after one detection round
+            #cam_quit = 1
+
 
         # Draw framerate in the corner of the image
         cv2.putText(image, "FPS: " + str(int(frame_rate_calc)), (10, 26), 
