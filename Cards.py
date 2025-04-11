@@ -289,6 +289,26 @@ def match_card(qCard, train_ranks, train_suits):
     return best_rank_match_name, best_suit_match_name, best_rank_match_diff, best_suit_match_diff
     
     
+def match_rank_only(qCard, train_ranks):
+    """Finds best rank match for the query card, ignoring suit."""
+    best_rank_match_diff = 10000
+    best_rank_match_name = "Unknown"
+
+    if len(qCard.rank_img) != 0:
+        for Trank in train_ranks:
+            diff_img = cv2.absdiff(qCard.rank_img, Trank.img)
+            rank_diff = int(np.sum(diff_img) / 255)
+
+            if rank_diff < best_rank_match_diff:
+                best_rank_match_diff = rank_diff
+                best_rank_match_name = Trank.name
+
+    if best_rank_match_diff < RANK_DIFF_MAX:
+        return best_rank_match_name, best_rank_match_diff
+    else:
+        return "Unknown", best_rank_match_diff
+
+
 def draw_results(image, qCard):
     """Draw the card name, center point, and contour on the camera image."""
 
@@ -297,14 +317,20 @@ def draw_results(image, qCard):
     cv2.circle(image,(x,y),5,(255,0,0),-1)
 
     rank_name = qCard.best_rank_match
-    suit_name = qCard.best_suit_match
 
-    # Draw card name twice, so letters have black outline
-    cv2.putText(image,(rank_name+' of'),(x-60,y-10),font,1,(0,0,0),3,cv2.LINE_AA)
-    cv2.putText(image,(rank_name+' of'),(x-60,y-10),font,1,(50,200,200),2,cv2.LINE_AA)
+    cv2.putText(image, rank_name, (x - 60, y), font, 1, (0, 0, 0), 3, cv2.LINE_AA)
+    cv2.putText(image, rank_name, (x - 60, y), font, 1, (50, 200, 200), 2, cv2.LINE_AA)
 
-    cv2.putText(image,suit_name,(x-60,y+25),font,1,(0,0,0),3,cv2.LINE_AA)
-    cv2.putText(image,suit_name,(x-60,y+25),font,1,(50,200,200),2,cv2.LINE_AA)
+
+    # rank_name = qCard.best_rank_match
+    # suit_name = qCard.best_suit_match
+
+    # # Draw card name twice, so letters have black outline
+    # cv2.putText(image,(rank_name+' of'),(x-60,y-10),font,1,(0,0,0),3,cv2.LINE_AA)
+    # cv2.putText(image,(rank_name+' of'),(x-60,y-10),font,1,(50,200,200),2,cv2.LINE_AA)
+
+    # cv2.putText(image,suit_name,(x-60,y+25),font,1,(0,0,0),3,cv2.LINE_AA)
+    # cv2.putText(image,suit_name,(x-60,y+25),font,1,(50,200,200),2,cv2.LINE_AA)
     
     # Can draw difference value for troubleshooting purposes
     # (commented out during normal operation)
