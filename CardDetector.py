@@ -13,11 +13,11 @@ import VideoStream
 
 ## Camera settings
 IM_WIDTH = 1280
-IM_HEIGHT = 720 
+IM_HEIGHT = 720
 FRAME_RATE = 10
 
 # Placeholder: replace with network input later
-number_of_cards = 4  # Example: wait until 2 cards are detected
+number_of_cards = 4  # Example: wait until we see 4 cards
 
 ## Initialize calculated frame rate because it's calculated AFTER the first time it's displayed
 frame_rate_calc = 1
@@ -30,20 +30,13 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 videostream = VideoStream.VideoStream((IM_WIDTH, IM_HEIGHT), FRAME_RATE).start()
 time.sleep(1)  # Give the camera time to warm up
 
-# Load the train rank and suit images
+# Load the train rank images
 path = os.path.dirname(os.path.abspath(__file__))
 train_ranks = Cards.load_ranks(path + '/Card_Imgs/')
 
-#We just want the number of the card, we do not care about the suit
-#train_suits = Cards.load_suits(path + '/Card_Imgs/')
-
 ### ---- MAIN LOOP ---- ###
-# The main loop repeatedly grabs frames from the video stream
-# and processes them to find and identify playing cards.
-
 cam_quit = 0  # Loop control variable
 
-# Begin capturing frames
 while cam_quit == 0:
     # Grab frame from video stream
     image = videostream.read()
@@ -54,27 +47,32 @@ while cam_quit == 0:
 
         # Pre-process camera image (gray, blur, and threshold it)
         pre_proc = Cards.preprocess_image(image)
-        
+
         # Find and sort the contours of all cards in the image (query cards)
         cnts_sort, cnt_is_card = Cards.find_cards(pre_proc)
 
+        # Prepare containers for each iteration
         cards = []
         detected_ranks = []
 
         for i in range(len(cnts_sort)):
             if cnt_is_card[i] == 1:
                 card = Cards.preprocess_card(cnts_sort[i], image)
-                # compares the card to the trained ranks and finds the best match
+                # Compare the card to the trained ranks and find the best match
                 rank, diff = Cards.match_rank_only(card, train_ranks)
 
-                # It stores the match result into the query card object so it can be drawn later
+                # Store the match result in the card object so it can be drawn later
                 card.best_rank_match = rank
                 card.rank_diff = diff
-                
 
                 image = Cards.draw_results(image, card)
                 cards.append(card)
                 detected_ranks.append(rank)
+
+        # ✅ Draw the contours around detected cards again
+        if len(cards) > 0:
+            temp_cnts = [card.contour for card in cards]
+            cv2.drawContours(image, temp_cnts, -1, (255, 0, 0), 2)
 
         # Check if we have the expected number of cards
         if len(detected_ranks) == number_of_cards:
@@ -82,13 +80,12 @@ while cam_quit == 0:
                 print(f"\n🎴 Detected {number_of_cards} cards:")
                 for idx, rank in enumerate(detected_ranks):
                     print(f"  Card {idx + 1}: {rank}")
-                # cam_quit = 1  # Optional: stop after good detection
+                # cam_quit = 1  # Optional: stop after a successful detection
             else:
                 print(f"❌ Incomplete detection: at least one card could not be identified.")
 
-
-        # Draw framerate in the corner of the image
-        cv2.putText(image, "FPS: " + str(int(frame_rate_calc)), (10, 26), 
+        # Draw the framerate in the corner of the image
+        cv2.putText(image, "FPS: " + str(int(frame_rate_calc)), (10, 26),
                     font, 0.7, (255, 0, 255), 2, cv2.LINE_AA)
 
         # Display the image with identified cards
@@ -99,7 +96,7 @@ while cam_quit == 0:
         time1 = (t2 - t1) / freq
         frame_rate_calc = 1 / time1
 
-    # Poll the keyboard. If 'q' is pressed, exit the main loop.
+    # Poll the keyboard. If 'q' is pressed, exit the main loop
     key = cv2.waitKey(1) & 0xFF
     if key == ord("q"):
         cam_quit = 1
