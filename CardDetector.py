@@ -23,7 +23,7 @@ number_of_cards = 4  # Example: wait until 4 cards are detected
 frame_rate_calc = 1
 freq = cv2.getTickFrequency()
 
-## Define font to use
+## Define font to use (MUST also reference this in Cards.draw_results)
 font = cv2.FONT_HERSHEY_SIMPLEX
 
 # Initialize Picamera2 video stream
@@ -53,7 +53,7 @@ while cam_quit == 0:
 
         # Prepare containers for each iteration
         cards = []
-        detected_ranks = []
+        detected_ranks = []  # We still keep this if we want rank-only lists
 
         # --- PROCESS DETECTED CARDS --- #
         for i in range(len(cnts_sort)):
@@ -68,8 +68,7 @@ while cam_quit == 0:
                 card.best_rank_match = rank
                 card.rank_diff = diff
 
-                # Draw rank text and center point on the image
-                # We'll also modify Cards.draw_results to show the confidence
+                # Draw rank text + difference on the image
                 image = Cards.draw_results(image, card)
 
                 # Collect them for later use
@@ -84,10 +83,9 @@ while cam_quit == 0:
         # --- IF WE'VE DETECTED THE EXPECTED NUMBER OF CARDS, PRINT THEM OUT --- #
         if len(detected_ranks) == number_of_cards:
             print(f"\n🎴 Detected {number_of_cards} cards:")
-            print(f"Detected ranks array: {detected_ranks}")
-            # Optional: print them individually
-            for idx, rank in enumerate(detected_ranks):
-                print(f"  Card {idx + 1}: {rank}")
+            # Print rank + diff for each card
+            for idx, card in enumerate(cards):
+                print(f"  Card {idx + 1}: {card.best_rank_match} {card.rank_diff}")
             # cam_quit = 1  # If you want to stop after detecting the set
 
         # --- DRAW THE FRAMERATE IN THE CORNER --- #
