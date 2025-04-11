@@ -5,16 +5,24 @@ import time
 
 class VideoStream:
     """Camera object using Picamera2"""
-    
+
     def __init__(self, resolution=(640, 480), framerate=30):
         self.frame = None  # Stores the latest frame
         self.stopped = False
 
         # Initialize Picamera2
         self.camera = Picamera2()
-        config = self.camera.create_video_configuration(main={"size": resolution, "format": "RGB888"})
+
+        # Create camera configuration
+        config = self.camera.create_video_configuration(
+            main={"size": resolution, "format": "RGB888"}
+        )
         self.camera.configure(config)
-        self.camera.set_controls({"FrameRate": framerate})
+
+        # ✅ Lock frame rate via frame duration
+        frame_duration_us = int(1_000_000 / framerate)  # e.g., 10 FPS = 100000 us
+        self.camera.set_controls({"FrameDurationLimits": (frame_duration_us, frame_duration_us)})
+
         self.camera.start()
         time.sleep(2)  # Allow camera to warm up
 

@@ -12,8 +12,8 @@ import VideoStream
 # Define constants and initialize variables
 
 ## Camera settings
-IM_WIDTH = 1280
-IM_HEIGHT = 720 
+IM_WIDTH = 1024
+IM_HEIGHT = 768 
 FRAME_RATE = 10
 
 # Placeholder: replace with network input later
