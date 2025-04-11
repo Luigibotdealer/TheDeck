@@ -78,12 +78,13 @@ while cam_quit == 0:
 
         # Check if we have the expected number of cards
         if len(detected_ranks) == number_of_cards:
-            print(f"\n🎴 Detected {number_of_cards} cards:")
-            for idx, rank in enumerate(detected_ranks):
-                print(f"  Card {idx + 1}: {rank}")
-            
-            # OPTIONAL: Exit after one detection round
-            #cam_quit = 1
+            if "Unknown" not in detected_ranks:
+                print(f"\n🎴 Detected {number_of_cards} cards:")
+                for idx, rank in enumerate(detected_ranks):
+                    print(f"  Card {idx + 1}: {rank}")
+                # cam_quit = 1  # Optional: stop after good detection
+            else:
+                print(f"❌ Incomplete detection: at least one card could not be identified.")
 
 
         # Draw framerate in the corner of the image
