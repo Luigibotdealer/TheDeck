@@ -12,9 +12,16 @@ import VideoStream
 # Define constants and initialize variables
 
 ## Camera settings
-IM_WIDTH = 640
-IM_HEIGHT = 480 
+# Max resolution: 4608 × 2592
+
+IM_WIDTH = 4608
+IM_HEIGHT = 2592
+
+#IM_WIDTH = 640
+#IM_HEIGHT = 480 
 FRAME_RATE = 10
+
+# Camera values: {Model: imx708, UnitCellSize: 1400,1400, Location: 2, Rotation: 180, PixelArraySize: (4608, 2592), PixelArrayActiveAreas: [(16,24,4608,2592)] ... 
 
 # Placeholder: replace with network input later
 number_of_cards = 4  # Example: wait until 4 cards are detected
