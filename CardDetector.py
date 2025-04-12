@@ -14,11 +14,11 @@ import VideoStream
 ## Camera settings
 # Max resolution: 4608 × 2592
 
-IM_WIDTH = 2304
-IM_HEIGHT = 1296
+#IM_WIDTH = 2304
+#IM_HEIGHT = 1296
 
-#IM_WIDTH = 640
-#IM_HEIGHT = 480 
+IM_WIDTH = 640
+IM_HEIGHT = 480 
 FRAME_RATE = 10
 
 # Camera values: {Model: imx708, UnitCellSize: 1400,1400, Location: 2, Rotation: 180, PixelArraySize: (4608, 2592), PixelArrayActiveAreas: [(16,24,4608,2592)] ... 
