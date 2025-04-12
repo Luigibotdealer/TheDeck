@@ -14,8 +14,8 @@ import VideoStream
 ## Camera settings
 # Max resolution: 4608 × 2592
 
-IM_WIDTH = 4608
-IM_HEIGHT = 2592
+IM_WIDTH = 2304
+IM_HEIGHT = 1296
 
 #IM_WIDTH = 640
 #IM_HEIGHT = 480 
