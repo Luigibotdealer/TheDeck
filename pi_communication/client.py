@@ -11,7 +11,7 @@ data = {
 
 # Set up client socket
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client_socket.connect(('10.201.62.123', 12345))  # Pi B IP
+client_socket.connect(('10.249.109.4', 12345))  # Pi B IP
 
 client_socket.send(json.dumps(data).encode())
 
@@ -20,3 +20,4 @@ response = client_socket.recv(1024).decode()
 print("Server response:", json.loads(response))
 
 client_socket.close()
+
