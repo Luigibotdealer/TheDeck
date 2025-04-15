@@ -1,9 +1,9 @@
+# Example server.py (minimum working version)
 import socket
 import json
 
-# Set up server socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(('10.249.109.4', 12345))  # Use Pi B's IP
+server_socket.bind(('10.217.5.52', 12345))  # or '' for all interfaces
 server_socket.listen(1)
 
 print("Waiting for connection...")
@@ -15,7 +15,7 @@ data = conn.recv(1024).decode()
 received = json.loads(data)
 print("Received:", received)
 
-# Send back a response (optional)
+# ✅ SEND A RESPONSE
 response = {"status": "OK", "received_variable": received["variable"]}
 conn.send(json.dumps(response).encode())
 
