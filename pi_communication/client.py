@@ -8,7 +8,7 @@ results = [1.5, 3.2, 7.8]
 # This data is a python dictionary, which is a data structure that holds key-value pairs
 data = {
     "variable": my_variable,
-    "results": results
+    "results": results,
 }
 
 # Set up client socket
