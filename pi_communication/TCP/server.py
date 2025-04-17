@@ -1,22 +1,22 @@
-# Example server.py (minimum working version)
-import socket
-import json
+#!/usr/bin/env python3
+import socket, json
 
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(('10.217.5.52', 12345))  # or '' for all interfaces
-server_socket.listen(1)
+HOST = ''          # Listen on all interfaces
+PORT = 5000        # Any free port
 
-print("Waiting for connection...")
-conn, addr = server_socket.accept()
-print(f"Connected by {addr}")
-
-# Receive data
-data = conn.recv(1024).decode()
-received = json.loads(data)
-print("Received:", received)
-
-# ✅ SEND A RESPONSE
-response = {"status": "OK", "received_variable": received["variable"]}
-conn.send(json.dumps(response).encode())
-
-conn.close()
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((HOST, PORT))
+    s.listen(1)
+    print(f"Listening on port {PORT} …")
+    conn, addr = s.accept()
+    with conn:
+        print("Connected by", addr)
+        while True:
+            raw = conn.recv(4096)
+            if not raw:
+                break
+            arr = json.loads(raw.decode())
+            print("→ Received:", arr)
+            # Example response: double each number
+            reply = json.dumps([x * 2 for x in arr]).encode()
+            conn.sendall(reply)
