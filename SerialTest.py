@@ -1,5 +1,6 @@
 import serial
 import time
+
 # Read serial data from Arduino
 port='/dev/ttyACM0'
 baudrate=9600
@@ -14,7 +15,6 @@ def read_arduino_serial():
   
    data = arduino.readline()  # Read a line from the serial port
    line = data.decode('utf-8').strip() #decodes the data into utf-8 and strips whitespace()
-
 
    if "," in line:
        splitline = line.split(',')  # Split the line by commas
