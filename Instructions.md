@@ -27,3 +27,26 @@ response = {"status": "OK", "received_variable": received["variable"]}
 conn.send(json.dumps(response).encode())
 
 conn.close()
+
+PI 4:
+
+sudo nano /etc/dhcpcd.conf
+
+interface eth0
+static ip_address=192.168.4.1/24
+
+sudo systemctl restart dhcpcd
+
+ip -4 addr show eth0
+
+PI 5:
+
+nmcli con show
+
+nmcli con mod "Wired connection 1" ipv4.addresses 192.168.4.2/24 ipv4.method manual
+
+nmcli con up "Wired connection 1"
+
+ip -4 addr show eth0
+
+Expected: inet 192.168.4.2/24
