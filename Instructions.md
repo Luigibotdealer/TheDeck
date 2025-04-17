@@ -50,3 +50,5 @@ nmcli con up "Wired connection 1"
 ip -4 addr show eth0
 
 Expected: inet 192.168.4.2/24
+
+ps -A | grep -E 'dhcpcd|NetworkManager'
