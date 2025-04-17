@@ -2,6 +2,7 @@
 import socket, json, time
 
 SERVER_IP = "192.168.4.1"   # IP of Pi 4
+# IP of Pi 5 is 192.168.4.2
 PORT = 5000
 
 # Example arrays to send
