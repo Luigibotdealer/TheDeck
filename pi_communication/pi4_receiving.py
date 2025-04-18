@@ -1,5 +1,6 @@
 import socket
 import json
+from CardDetector import detect_cards
 
 def handle_keyword(keyword):
     """
@@ -8,6 +9,14 @@ def handle_keyword(keyword):
     """
     if keyword == "run_card_detection":
         # Now we run the card detection code
+        # some_other_script.py
+        wanted = 4
+        cards  = detect_cards(num_cards=wanted, debug=True)   # run headless
+        if cards:
+            print(f"I saw {wanted} cards:", cards)
+        else:
+            print("User aborted or nothing recognised.")
+
         return {"status": "ready"}
     else:
         return {"error": f"Unknown keyword: {keyword}"}
