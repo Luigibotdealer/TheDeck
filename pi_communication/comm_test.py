@@ -1,4 +1,4 @@
-from pi_communication.pi4_send import send_keyword_to_pi4
+from pi4_send import send_keyword_to_pi4
 import time
 
 # Pretend you're asking your Pi4 how it's doing
