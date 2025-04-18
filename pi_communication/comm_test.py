@@ -5,7 +5,7 @@ import time
 print ("Asking Pi to run Card Detection")
 # Send keyword
 
-response = send_keyword_to_pi4("run_card_detection")
+response = send_keyword_to_pi4("run_card_detection", 1)
 
 # Interpret the response like a dumb robot
 if response is None:

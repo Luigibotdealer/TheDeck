@@ -1,28 +1,39 @@
-import socket
-import json
+import socket, json
 
-# THis is a function to call to receive a keyword from the Pi 4 server and return the response.
-
-# In this case the Pi 4 acts as the server and the Pi 5 acts as the client
-
-### This function is used to send a keyword to the Pi 4 server and wait for a response.
-### You can send "run_card_detection" as the keyword to get the Pi 4 to run the card detection code.
-def send_keyword_to_pi4(keyword, server_ip="192.168.4.1", port=5000, timeout=3): 
+def send_keyword_to_pi4(keyword,
+                        server_ip="192.168.4.1",
+                        port=5000,
+                        timeout=None):
     """
-    Connects to Pi 4 server, sends a keyword, and waits for a response.
-    Returns the response (decoded from JSON).
+    Connects to Pi-4 (server), sends a keyword, and returns the JSON-decoded
+    response.
+
+    Parameters
+    ----------
+    keyword : string
+    server_ip : str IP address of the Pi4 server.
+    port : int TCP port on which the server is listening.
+    timeout : float | None
+        • None  -> no timeout (block indefinitely, good for long card detection)  
+        • n>0   -> seconds before socket timeout/raise exception.
     """
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.settimeout(timeout)
+            if timeout is not None:          # leave blocking mode if None
+                s.settimeout(timeout)
+
             s.connect((server_ip, port))
-            # Send the keyword as JSON
+
+            # Send the keyword
             s.sendall(json.dumps(keyword).encode())
-            # Wait for response
+
+            # Wait for the reply (blocks until data arrives if no timeout)
             raw = s.recv(4096)
             if not raw:
                 raise ConnectionError("No response from server")
+
             return json.loads(raw.decode())
+
     except Exception as e:
-        print(f"⚠️ Error communicating with Pi 4: {e}")
+        print(f"⚠️  Error communicating with Pi 4: {e}")
         return None
