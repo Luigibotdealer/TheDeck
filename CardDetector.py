@@ -21,6 +21,10 @@ def detect_cards(
         fps: int = DEFAULT_FPS,
         debug: bool = False
     ) -> list[str] | None:
+
+    # Print statement to see what the camera is seeing 
+    print(f"[detect_cards] Waiting for {num_cards} card(s)…  (debug={debug})")
+
     """
     Blocks until `num_cards` unique cards are recognised.
     Returns a list of rank strings, or None if the user aborts.
@@ -69,9 +73,9 @@ def detect_cards(
 
             # Success?
             if len(ranks) == num_cards and "Unknown" not in ranks:
-                if debug:
-                    print("Detected:", ranks)
-                return ranks                          # 🎉 done!
+                #! Could be changed to only if in debug mode to improve perfomance
+                print(f"[detect_cards] ✅ Detected {num_cards} cards:", ranks)
+                return ranks                              # 🎉 done!
 
             # Show FPS if debug flag
             if debug:
@@ -91,6 +95,8 @@ def detect_cards(
     finally:
         vs.stop()
         cv2.destroyAllWindows()
+        print("[detect_cards] Camera cleaned up.")
+
 
     return None      # user aborted
 

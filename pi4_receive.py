@@ -1,50 +1,45 @@
-import socket
-import json
+import socket, json
 from CardDetector import detect_cards
 
 def handle_keyword(keyword):
-    """
-    Example handler function that responds based on the keyword received.
-    You can customize this logic however you want.
-    """
-    #! This should be an input at some point
-    wanted = 2,  # Number of cards to detect
-
+    # HOW MANY CARDS DO WE WANT?
+    wanted = 2        # ← note: removed the stray comma so wanted is int(2)
 
     if keyword == "run_card_detection":
-        # Now we run the card detection code
-        # some_other_script.py
-        cards  = detect_cards(num_cards=wanted, debug=True)   # run headless
+        print("[server] Running card detection…")
+        cards = detect_cards(num_cards=wanted, debug=True)
+
         if cards:
-            print(f"I saw {wanted} cards:", cards)
+            print(f"[server] I saw {wanted} cards:", cards)
+            # Send the actual list back so Pi‑5 can use it
+            return {"status": "success", "cards": cards}
         else:
-            print("User aborted or nothing recognised.")
+            print("[server] User aborted or nothing recognised.")
+            return {"status": "aborted"}
 
-        return {"status": "ready"}
-    else:
-        return {"error": f"Unknown keyword: {keyword}"}
+    # Unknown keyword
+    return {"error": f"Unknown keyword: {keyword}"}
 
-HOST = ''
-PORT = 5000
-
+HOST, PORT = '', 5000
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
     s.listen(1)
-    print(f"Listening on port {PORT} …")
+    print(f"[server] Listening on port {PORT}…")
     while True:
         conn, addr = s.accept()
         with conn:
-            print("Connected by", addr)
+            print("[server] Connected by", addr)
             raw = conn.recv(4096)
             if not raw:
                 continue
             try:
                 keyword = json.loads(raw.decode())
-                print("→ Keyword received:", keyword)
-                # Call the handler function with the received keyword to figure out the response
-                reply = handle_keyword(keyword)
-                # Send the reply back to the client (Pi 5)
+                print("[server] → Keyword received:", keyword)
+
+                reply = handle_keyword(keyword)   # run card detect here
                 conn.sendall(json.dumps(reply).encode())
+                print("[server] ← Reply sent:", reply)
+
             except Exception as e:
-                print("⚠️ Error:", e)
+                print("⚠️ [server] Error:", e)
                 conn.sendall(json.dumps({"error": str(e)}).encode())
