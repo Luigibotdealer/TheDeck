@@ -2,11 +2,15 @@ import socket
 import json
 from CardDetector import detect_cards
 
-def handle_keyword(keyword, wanted=2):
+def handle_keyword(keyword):
     """
     Example handler function that responds based on the keyword received.
     You can customize this logic however you want.
     """
+    #! This should be an input at some point
+    wanted = 2,  # Number of cards to detect
+
+
     if keyword == "run_card_detection":
         # Now we run the card detection code
         # some_other_script.py

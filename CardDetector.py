@@ -16,7 +16,7 @@ DEFAULT_IM_SIZE = (640, 480)                       # width, height
 DEFAULT_FPS      = 10
 
 def detect_cards(
-        num_cards: int = 4,
+        num_cards: int,
         im_size: tuple[int, int] = DEFAULT_IM_SIZE,
         fps: int = DEFAULT_FPS,
         debug: bool = False
