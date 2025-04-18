@@ -5,7 +5,9 @@ import json
 
 # In this case the Pi 4 acts as the server and the Pi 5 acts as the client
 
-def send_keyword_to_pi4(keyword, server_ip="192.168.4.1", port=5000, timeout=3):
+### This function is used to send a keyword to the Pi 4 server and wait for a response.
+### You can send "run_card_detection" as the keyword to get the Pi 4 to run the card detection code.
+def send_keyword_to_pi4(keyword, server_ip="192.168.4.1", port=5000, timeout=3): 
     """
     Connects to Pi 4 server, sends a keyword, and waits for a response.
     Returns the response (decoded from JSON).

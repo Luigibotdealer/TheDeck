@@ -6,12 +6,9 @@ def handle_keyword(keyword):
     Example handler function that responds based on the keyword received.
     You can customize this logic however you want.
     """
-    if keyword == "get_status":
+    if keyword == "run_card_detection":
+        # Now we run the card detection code
         return {"status": "ready"}
-    elif keyword == "ping":
-        return "pong"
-    elif keyword == "temperature":
-        return 37.2  # example sensor value
     else:
         return {"error": f"Unknown keyword: {keyword}"}
 
@@ -32,7 +29,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             try:
                 keyword = json.loads(raw.decode())
                 print("→ Keyword received:", keyword)
+                # Call the handler function with the received keyword to figure out the response
                 reply = handle_keyword(keyword)
+                # Send the reply back to the client (Pi 5)
                 conn.sendall(json.dumps(reply).encode())
             except Exception as e:
                 print("⚠️ Error:", e)
