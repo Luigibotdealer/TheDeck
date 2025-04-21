@@ -101,6 +101,6 @@ def detect_cards(
     return None      # user aborted
 
 # --------------------------------------------------------------------------- #
-if __name__ == "__main__":                         # test‑run
-    ranks = detect_cards(num_cards=4, debug=True)
-    print("Returned:", ranks)
+# if __name__ == "__main__":                         # test‑run
+#     ranks = detect_cards(num_cards=4, debug=True)
+#     print("Returned:", ranks)
