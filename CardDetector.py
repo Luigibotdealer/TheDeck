@@ -13,6 +13,9 @@ import Cards, VideoStream                          # your existing modules
 
 # Default camera constants
 DEFAULT_IM_SIZE = (640, 480)                       # width, height
+
+DEFAULT_IM_SIZE = (1280, 720)                       # width, height
+
 DEFAULT_FPS      = 10
 
 def detect_cards(

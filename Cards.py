@@ -21,9 +21,13 @@ CARD_THRESH = 30
 CORNER_WIDTH = 32
 CORNER_HEIGHT = 84
 
-# Dimensions of rank train images
+# Old Dimensions of rank train images
 RANK_WIDTH = 70
 RANK_HEIGHT = 125
+
+# New Dimensions of rank train images
+#RANK_WIDTH = 210
+#RANK_HEIGHT = 375
 
 # Dimensions of suit train images
 SUIT_WIDTH = 70
@@ -88,21 +92,21 @@ def load_ranks(filepath):
 
     return train_ranks
 
-def load_suits(filepath):
-    """Loads suit images from directory specified by filepath. Stores
-    them in a list of Train_suits objects."""
+# def load_suits(filepath):
+#     """Loads suit images from directory specified by filepath. Stores
+#     them in a list of Train_suits objects."""
 
-    train_suits = []
-    i = 0
+#     train_suits = []
+#     i = 0
     
-    for Suit in ['Spades','Diamonds','Clubs','Hearts']:
-        train_suits.append(Train_suits())
-        train_suits[i].name = Suit
-        filename = Suit + '.jpg'
-        train_suits[i].img = cv2.imread(filepath+filename, cv2.IMREAD_GRAYSCALE)
-        i = i + 1
+#     for Suit in ['Spades','Diamonds','Clubs','Hearts']:
+#         train_suits.append(Train_suits())
+#         train_suits[i].name = Suit
+#         filename = Suit + '.jpg'
+#         train_suits[i].img = cv2.imread(filepath+filename, cv2.IMREAD_GRAYSCALE)
+#         i = i + 1
 
-    return train_suits
+#     return train_suits
 
 def preprocess_image(image):
     """Returns a grayed, blurred, and adaptively thresholded camera image."""
