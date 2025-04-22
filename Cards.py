@@ -22,12 +22,12 @@ CORNER_WIDTH = 32
 CORNER_HEIGHT = 84
 
 # Old Dimensions of rank train images
-RANK_WIDTH = 70
-RANK_HEIGHT = 125
+#RANK_WIDTH = 70
+#RANK_HEIGHT = 125
 
 # New Dimensions of rank train images
-#RANK_WIDTH = 210
-#RANK_HEIGHT = 375
+RANK_WIDTH = 140
+RANK_HEIGHT = 250
 
 # Dimensions of suit train images
 SUIT_WIDTH = 70
@@ -37,7 +37,7 @@ SUIT_HEIGHT = 100
 RANK_DIFF_MAX = 2500
 SUIT_DIFF_MAX = 700
 
-CARD_MAX_AREA = 120000
+CARD_MAX_AREA = 12000
 CARD_MIN_AREA = 5000
 
 font = cv2.FONT_HERSHEY_SIMPLEX
