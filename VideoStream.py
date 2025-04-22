@@ -7,40 +7,71 @@ class VideoStream:
     """Camera object using Picamera2"""
 
     def __init__(self, resolution=(640, 480), framerate=30):
-        self.frame = None  # Stores the latest frame
+        self.frame = None
         self.stopped = False
+        self.thread = None
 
-        # Initialize Picamera2
-        self.camera = Picamera2()
+        try:
+            self.camera = Picamera2()
 
-        # Create camera configuration
-        config = self.camera.create_video_configuration(
-            main={"size": resolution, "format": "RGB888"}
-        )
-        self.camera.configure(config)
+            config = self.camera.create_video_configuration(
+                main={"size": resolution, "format": "RGB888"}
+            )
+            self.camera.configure(config)
 
-        # ✅ Lock frame rate via frame duration
-        frame_duration_us = int(1_000_000 / framerate)  # e.g., 10 FPS = 100000 us
-        self.camera.set_controls({"FrameDurationLimits": (frame_duration_us, frame_duration_us)})
+            frame_duration_us = int(1_000_000 / framerate)
+            self.camera.set_controls({
+                "FrameDurationLimits": (frame_duration_us, frame_duration_us)
+            })
 
-        self.camera.start()
-        time.sleep(2)  # Allow camera to warm up
+            self.camera.start()
+            time.sleep(2)  # warm-up
+        except Exception as e:
+            print("[VideoStream] ❌ Error during camera init:", e)
+            self.camera = None
+            raise RuntimeError("Could not initialize camera.") from e
 
     def start(self):
-        """Start the thread to read frames from the video stream"""
-        Thread(target=self.update, args=(), daemon=True).start()
+        if self.thread and self.thread.is_alive():
+            print("[VideoStream] Already running.")
+            return self
+
+        self.stopped = False
+        self.thread = Thread(target=self.update, daemon=True)
+        self.thread.start()
         return self
 
     def update(self):
-        """Continuously capture frames in a separate thread"""
         while not self.stopped:
-            self.frame = self.camera.capture_array()
+            try:
+                self.frame = self.camera.capture_array()
+            except Exception as e:
+                print("[VideoStream] ⚠️ Capture failed:", e)
+                self.frame = None
+                break
 
     def read(self):
-        """Return the most recent frame"""
+        if self.frame is None:
+            print("[VideoStream] ⚠️ No frame available yet.")
         return self.frame
 
     def stop(self):
-        """Stop the camera stream"""
-        self.stopped = True
-        self.camera.stop()
+        if not self.stopped:
+            print("[VideoStream] Stopping camera.")
+            self.stopped = True
+            if self.thread and self.thread.is_alive():
+                self.thread.join(timeout=1)
+            if self.camera:
+                try:
+                    self.camera.stop()
+                except Exception as e:
+                    print("[VideoStream] ⚠️ Error on stop():", e)
+
+    def __del__(self):
+        self.stop()
+
+    def __enter__(self):
+        return self.start()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.stop()
