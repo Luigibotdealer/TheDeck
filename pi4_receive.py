@@ -2,23 +2,22 @@ import socket, json
 from CardDetector import detect_cards
 
 def handle_keyword(keyword):
-    # HOW MANY CARDS DO WE WANT?
-    wanted = 2        # ← note: removed the stray comma so wanted is int(2)
+    wanted = 2
 
     if keyword == "run_card_detection":
         print("[server] Running card detection…")
-        cards = detect_cards(num_cards=wanted, debug=True)
+        try:
+            cards = detect_cards(num_cards=wanted, debug=True)
+        except Exception as e:
+            print(f"⚠️ [server] Error during detection: {e}")
+            return {"status": "error", "message": str(e)}
 
         if cards:
             print(f"[server] I saw {wanted} cards:", cards)
-            # Send the actual list back so Pi‑5 can use it
             return {"status": "success", "cards": cards}
         else:
             print("[server] User aborted or nothing recognised.")
             return {"status": "aborted"}
-
-    # Unknown keyword
-    return {"error": f"Unknown keyword: {keyword}"}
 
 HOST, PORT = '', 5000
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
