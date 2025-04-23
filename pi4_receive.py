@@ -33,8 +33,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             try:
                 data = data = json.loads(raw.decode())
 
-                keyword = data.get("keyword"),
-                num_cards = data.get("num_cards", 2)  # default to 4 cards if not specified
+                keyword = data.get("keyword")
+                num_cards = data.get("num_cards", 1)  # default to 1 cards if not specified
                 print("[server] Received keyword:", keyword, "NUMBER OF CARDS TO DETECT:", num_cards)
 
                 reply = handle_keyword(keyword, num_cards)   # run card detect here
