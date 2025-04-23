@@ -1,11 +1,17 @@
 import socket, json
 
-def send_keyword_to_pi4(keyword,
+def send_keyword_to_pi4(keyword,num_cards,
                         server_ip="192.168.4.1",
                         port=5000,
                         timeout=None):
+    
+    payload = {
+    "keyword": keyword,
+    "num_cards": num_cards
+    }
+
     """
-    Connects to Pi-4 (server), sends a keyword, and returns the JSON-decoded
+    Connects to Pi-4 (server), sends a payload object (keyword + num_cards), and returns the JSON-decoded
     response.
 
     Parameters
@@ -25,7 +31,7 @@ def send_keyword_to_pi4(keyword,
             s.connect((server_ip, port))
 
             # Send the keyword
-            s.sendall(json.dumps(keyword).encode())
+            s.sendall(json.dumps(payload).encode())
 
             # Wait for the reply (blocks until data arrives if no timeout)
             raw = s.recv(4096)

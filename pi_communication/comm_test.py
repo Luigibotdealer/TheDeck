@@ -4,7 +4,8 @@ from pi4_send import send_keyword_to_pi4
 print ("Asking Pi to run Card Detection")
 # Send keyword
 
-response = send_keyword_to_pi4("run_card_detection")
+response = send_keyword_to_pi4(keyword="run_card_detection", num_cards=2,
+)
 
 # Interpret the response like a dumb robot
 if response is None:
