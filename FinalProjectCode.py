@@ -13,8 +13,8 @@ class Poker:
         self.arduino = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
         time.sleep(2)
 
-        self.videostream = VideoStream((640, 480), 10).start()
-        time.sleep(1)  # Give the camera time to warm up
+        # self.videostream = VideoStream((640, 480), 10).start()
+        # time.sleep(1)  # Give the camera time to warm up
 
     def get_card_values(card_names):
         card_values = {
