@@ -335,7 +335,9 @@ class Blackjack:
         self.calculate_results(playerTotal,dealerTotal,playerBet)
 
     def main(self):
-        print('Are you ready to play? green = yes, red = no' )
+        # First we prompt the user wether he wants to start a new game or not
+        #! There is no difference between any of the buttons right now
+        print('Are you ready to play? green=yes red=no' )
         newGame = self.get_player_choice_from_buttons().lower()
 
         while newGame != 'no':
