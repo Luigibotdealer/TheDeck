@@ -1,6 +1,7 @@
 import serial 
 import time
 from VideoStream import VideoStream
+from CardDetector import detect_cards
 
 class Blackjack:
     def __init__(self):
@@ -88,7 +89,7 @@ class Blackjack:
         self.move_arm(self.currentplayerPosition - self.cardSpacing)
         self.dispense_Card()
         self.move_arm(self.homePosition)
-        self.playerHand = [self.extract_cards_from_camera(self.numPlayerCards)]
+        self.playerHand = detect_cards(self.numPlayerCards)
 
         # Deal 1 card to the dealer
         print('now dealing dealer card..')
