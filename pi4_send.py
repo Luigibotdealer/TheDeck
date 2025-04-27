@@ -42,4 +42,6 @@ def send_keyword_to_pi4(keyword,num_cards,
 
     except Exception as e:
         print(f"⚠️  Error communicating with Pi 4: {e}")
-        return None
+        
+    return None
+    
