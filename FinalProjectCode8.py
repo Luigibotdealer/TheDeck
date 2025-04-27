@@ -99,21 +99,10 @@ class Blackjack:
         self.dispense_Card()
         self.move_arm(self.homePosition)
         
-        # We are sending the instruction to recognise cards to the pi4
-        self.playerHand = send_keyword_to_pi4(keyword="run_card_detection", num_cards=self.numPlayerCards,) 
+        # We are sending the instruction to recognise cards to the pi4 and the pi5
+        self.dealerHand = send_keyword_to_pi4(keyword="run_card_detection", num_cards=self.numDealerCards,) 
+        self.playerHand = detect_cards(self.numPlayerCards) # pi5 should detect the player's cards
 
-        # Deal 1 card to the dealer
-        print('now dealing dealer card..')
-        self.numDealerCards = 1
-        self.move_arm(self.currentdealerPosition)
-        self.currentdealerPosition = self.currentdealerPosition + self.cardSpacing
-        self.dispense_Card()
-        self.move_arm(self.homePosition)
-
-        # We are sending the instruction to recognise cards to the pi4
-        self.playerHand = send_keyword_to_pi4(keyword="run_card_detection", num_cards=self.numDealerCards,) 
-
-        # Update totals
         return self.playerHand, self.dealerHand
 
     def calculate_results(self,playerTotal,dealerTotal,playerBet):
