@@ -14,13 +14,13 @@ class Blackjack:
         self.numDealerCards = 0
         self.initialplayerPosition = 172
         self.currentplayerPosition = self.initialplayerPosition
-        self.initialdealerPosition = 60
+        self.initialdealerPosition = 100
         self.currentdealerPosition = self.initialdealerPosition
         self.currentArmPosition = 0
         self.homePosition = 300.000
         self.initialscoopPosition = 330
         self.finalscoopPosition = 30
-        self.cardSpacing = 15
+        self.cardSpacing = 10
 
         self.arduino = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
         time.sleep(2)
