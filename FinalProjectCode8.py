@@ -100,7 +100,7 @@ class Blackjack:
         self.move_arm(self.homePosition)
         
         # We are sending the instruction to recognise cards to the pi4 and the pi5
-        self.dealerHand = send_keyword_to_pi4(keyword="run_card_detection", num_cards=self.numDealerCards,) 
+        #! self.dealerHand = send_keyword_to_pi4(keyword="run_card_detection", num_cards=self.numDealerCards,) 
         self.playerHand = detect_cards(self.numPlayerCards) # pi5 should detect the player's cards
 
         return self.playerHand, self.dealerHand
