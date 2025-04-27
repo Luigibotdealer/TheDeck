@@ -13,7 +13,8 @@ class Blackjack:
         self.currentplayerPosition = self.initialplayerPosition
         self.initialdealerPosition = 40
         self.currentdealerPosition = self.initialdealerPosition
-        self.homePosition = 330.000
+        self.currentArmPosition = 0
+        self.homePosition = 300.000
         self.initialscoopPosition = 330
         self.finalscoopPosition = 30
         self.cardSpacing = 15
@@ -80,11 +81,11 @@ class Blackjack:
     def initialDeal(self):
         # Deal 2 cards to the player
         self.numPlayerCards = 2
+        # We move the arm to the current player position, then add the card spancing 
         self.move_arm(self.currentplayerPosition)
-        # self.currentplayerPosition = self.currentplayerPosition - self.cardSpacing
         self.dispense_Card()
-        self.move_arm(self.currentplayerPosition + self.cardSpacing)
-        self.currentplayerPosition = self.currentplayerPosition + self.cardSpacing
+        # we move the arm the space of a card to the right 
+        self.move_arm(self.currentplayerPosition - self.cardSpacing)
         self.dispense_Card()
         self.move_arm(self.homePosition)
         self.playerHand = [self.extract_cards_from_camera(self.numPlayerCards)]
