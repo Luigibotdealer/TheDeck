@@ -12,9 +12,9 @@ import cv2, os, time, json
 import Cards, VideoStream                          # your existing modules
 
 # Default camera constants
-#DEFAULT_IM_SIZE = (640, 480)                       # width, height
+DEFAULT_IM_SIZE = (640, 480)                       # width, height
 
-DEFAULT_IM_SIZE = (1280, 720)                       # width, height
+#DEFAULT_IM_SIZE = (1280, 720)                       # width, height
 
 DEFAULT_FPS      = 10
 
@@ -61,12 +61,12 @@ def detect_cards(
             for c, is_card in zip(cnts, flags):
                 if is_card:
                     card      = Cards.preprocess_card(c, frame)
-                    rank, _   = Cards.match_rank_only(card, train_ranks)
-                    card.best_rank_match = rank
+                    #rank, _   = Cards.match_rank_only(card, train_ranks)
+                    #card.best_rank_match = rank
                     frame     = Cards.draw_results(frame, card)
 
                     found_cards.append(card)
-                    ranks.append(rank)
+                    #ranks.append(rank)
 
             # Draw blue contours for visual feedback
             if debug and found_cards:
