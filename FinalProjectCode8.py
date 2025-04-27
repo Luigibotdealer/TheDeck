@@ -14,7 +14,7 @@ class Blackjack:
         self.numDealerCards = 0
         self.initialplayerPosition = 172
         self.currentplayerPosition = self.initialplayerPosition
-        self.initialdealerPosition = 40
+        self.initialdealerPosition = 60
         self.currentdealerPosition = self.initialdealerPosition
         self.currentArmPosition = 0
         self.homePosition = 300.000
@@ -84,16 +84,23 @@ class Blackjack:
     def initialDeal(self):
         # Deal 2 cards to the player
         self.numPlayerCards = 2
-        # We move the arm to the current player position, then add the card spancing 
+        self.numDealerCards = 1
+
+        # We move the arm to the current player position, dispense a card 
         self.move_arm(self.currentplayerPosition)
         self.dispense_Card()
+
+        # Now we move the arm to the dealer's position, dispense a card
+        self.move_arm(self.currentdealerPosition)
+        self.dispense_Card()
+
         # we move the arm the space of a card to the right 
         self.move_arm(self.currentplayerPosition - self.cardSpacing)
         self.dispense_Card()
         self.move_arm(self.homePosition)
-
+        
         # We are sending the instruction to recognise cards to the pi4
-        self.playerHand = send_keyword_to_pi4(keyword="run_card_detection", num_cards=self.numPlayerCards,)
+        self.playerHand = send_keyword_to_pi4(keyword="run_card_detection", num_cards=self.numPlayerCards,) 
 
         # Deal 1 card to the dealer
         print('now dealing dealer card..')
@@ -102,7 +109,9 @@ class Blackjack:
         self.currentdealerPosition = self.currentdealerPosition + self.cardSpacing
         self.dispense_Card()
         self.move_arm(self.homePosition)
-        self.dealerHand = [self.extract_cards_from_camera(self.numDealerCards)]
+
+        # We are sending the instruction to recognise cards to the pi4
+        self.playerHand = send_keyword_to_pi4(keyword="run_card_detection", num_cards=self.numDealerCards,) 
 
         # Update totals
         return self.playerHand, self.dealerHand
