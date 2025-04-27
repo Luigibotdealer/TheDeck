@@ -190,7 +190,7 @@ class Blackjack:
         self.get_player_choice_from_buttons()
 
         # Scoop up before we move the arm to the home position
-        self.scoop_up(self.initialscoopPosition)
+        self.scoop_up()
         # We tell the arduino to move the arm to the home position
         self.move_arm(self.homePosition)
 
