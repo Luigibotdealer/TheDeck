@@ -2,6 +2,8 @@ import serial
 import time
 from VideoStream import VideoStream
 from CardDetector import detect_cards
+from pi4_send import send_keyword_to_pi4
+
 
 class Blackjack:
     def __init__(self):
@@ -89,7 +91,9 @@ class Blackjack:
         self.move_arm(self.currentplayerPosition - self.cardSpacing)
         self.dispense_Card()
         self.move_arm(self.homePosition)
-        self.playerHand = detect_cards(self.numPlayerCards)
+
+        # We are sending the instruction to recognise cards to the pi4
+        self.playerHand = send_keyword_to_pi4(keyword="run_card_detection", num_cards=self.numPlayerCards,)
 
         # Deal 1 card to the dealer
         print('now dealing dealer card..')
