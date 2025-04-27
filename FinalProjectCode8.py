@@ -189,6 +189,8 @@ class Blackjack:
         print('move away from table for arm to move. Hit any button to continue')
         self.get_player_choice_from_buttons()
 
+        # Scoop up before we move the arm to the home position
+        self.scoop_up(self.initialscoopPosition)
         # We tell the arduino to move the arm to the home position
         self.move_arm(self.homePosition)
 
@@ -202,8 +204,7 @@ class Blackjack:
 
         self.get_player_choice_from_buttons()
 
-        print('initial player deal. deal 2 player cards into camera area. press any button to continue')
-        self.get_player_choice_from_buttons()
+        print("Bets are placed. Game begins now!")
         self.initialDeal()
 
         playerTotal = self.calculate_total(self.playerHand)
