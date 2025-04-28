@@ -96,9 +96,11 @@ def detect_cards(
                 time.sleep(0.01)
 
     finally:
-        vs.stop()
+        if vs:
+            vs.stop()
         cv2.destroyAllWindows()
         print("[detect_cards] Camera cleaned up.")
+
 
 
     return None      # user aborted

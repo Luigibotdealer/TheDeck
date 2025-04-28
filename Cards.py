@@ -22,16 +22,16 @@ CORNER_WIDTH = 32
 CORNER_HEIGHT = 84
 
 # Old Dimensions of rank train images
-#RANK_WIDTH = 70
-#RANK_HEIGHT = 125
+RANK_WIDTH = 70
+RANK_HEIGHT = 125
 
 # New Dimensions of rank train images
-RANK_WIDTH = 140
-RANK_HEIGHT = 250
+#RANK_WIDTH = 140
+#RANK_HEIGHT = 250
 
 # Dimensions of suit train images
-SUIT_WIDTH = 70
-SUIT_HEIGHT = 100
+#SUIT_WIDTH = 70
+#SUIT_HEIGHT = 100
 
 # Confidence error
 RANK_DIFF_MAX = 2500
