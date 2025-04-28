@@ -234,11 +234,11 @@ def preprocess_card(contour, image):
     
     # Find bounding rectangle for largest contour, use it to resize query suit
     # image to match dimensions of the train suit image
-    if len(Qsuit_cnts) != 0:
-        x2,y2,w2,h2 = cv2.boundingRect(Qsuit_cnts[0])
-        Qsuit_roi = Qsuit[y2:y2+h2, x2:x2+w2]
-        Qsuit_sized = cv2.resize(Qsuit_roi, (SUIT_WIDTH, SUIT_HEIGHT), 0, 0)
-        qCard.suit_img = Qsuit_sized
+    # if len(Qsuit_cnts) != 0:
+    #     x2,y2,w2,h2 = cv2.boundingRect(Qsuit_cnts[0])
+    #     Qsuit_roi = Qsuit[y2:y2+h2, x2:x2+w2]
+    #     Qsuit_sized = cv2.resize(Qsuit_roi, (SUIT_WIDTH, SUIT_HEIGHT), 0, 0)
+    #     qCard.suit_img = Qsuit_sized
 
     return qCard
 
