@@ -25,6 +25,25 @@ class Blackjack:
         self.arduino = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
         time.sleep(2)
 
+    def card_value(self, rank: str) -> int:
+        rank_to_value = {
+            'Ace': 11,
+            'Two': 2,
+            'Three': 3,
+            'Four': 4,
+            'Five': 5,
+            'Six': 6,
+            'Seven': 7,
+            'Eight': 8,
+            'Nine': 9,
+            'Ten': 10,
+            'Jack': 10,
+            'Queen': 10,
+            'King': 10,
+        }
+        return rank_to_value.get(rank, 0)  # 0 as default if unknown
+
+
     def get_player_choice_from_buttons(self):
         print("Waiting for button press...")
 
@@ -73,13 +92,15 @@ class Blackjack:
             else:
                 print("Please enter 'Yes' or 'No'.")
 
+    # This function goes to card_values function and returns a total score accounting for aces
     def calculate_total(self, hand):
-        total = sum(hand)
-        num_aces = hand.count(11)
+        total = sum(self.card_value(card) for card in hand)
+        num_aces = hand.count('Ace')  # Note: still counting 'Ace' **as string**
         while total > 21 and num_aces > 0:
             total -= 10
             num_aces -= 1
         return total
+
 
     def initialDeal(self):
         # Deal 2 cards to the player
@@ -105,6 +126,7 @@ class Blackjack:
         self.get_player_choice_from_buttons()
         self.dealerHand = send_keyword_to_pi4(keyword="run_card_detection", num_cards=self.numDealerCards,) 
 
+        # Code works up to here for sure 
         return self.playerHand, self.dealerHand
 
     def calculate_results(self,playerTotal,dealerTotal,playerBet):
