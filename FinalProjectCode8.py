@@ -12,12 +12,12 @@ class Blackjack:
         self.winnings = 0
         self.numPlayerCards = 0
         self.numDealerCards = 0
-        self.initialplayerPosition = 172
+        self.initialplayerPosition = 280
         self.currentplayerPosition = self.initialplayerPosition
         self.initialdealerPosition = 70
         self.currentdealerPosition = self.initialdealerPosition
         self.currentArmPosition = 0
-        self.homePosition = 300.000
+        self.homePosition = 190.000
         self.initialscoopPosition = 330
         self.finalscoopPosition = 30
         self.cardSpacing = 10
