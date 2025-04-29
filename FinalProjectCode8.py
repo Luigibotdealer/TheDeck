@@ -13,9 +13,7 @@ class Blackjack:
         self.numPlayerCards = 0
         self.numDealerCards = 0
         self.initialplayerPosition = 70
-        self.currentplayerPosition = self.initialplayerPosition
         self.initialdealerPosition = 280
-        self.currentdealerPosition = self.initialdealerPosition
         self.currentArmPosition = 0
         self.homePosition = 190.000
         self.initialscoopPosition = 330
@@ -93,9 +91,14 @@ class Blackjack:
                 print("Please enter 'Yes' or 'No'.")
 
     # This function goes to card_values function and returns a total score accounting for aces
+
     def calculate_total(self, hand):
+        if not isinstance(hand, list):
+            raise TypeError(f"Expected list of card names, got {type(hand).__name__}: {hand}")
+
         total = sum(self.card_value(card) for card in hand)
-        num_aces = hand.count('Ace')  # Note: still counting 'Ace' **as string**
+        num_aces = hand.count('Ace')
+        
         while total > 21 and num_aces > 0:
             total -= 10
             num_aces -= 1
@@ -108,15 +111,15 @@ class Blackjack:
         self.numDealerCards = 1
 
         # We move the arm to the current player position, dispense a card 
-        self.move_arm(self.currentplayerPosition)
+        self.move_arm(self.initialplayerPosition)
         self.dispense_Card()
 
         # Now we move the arm to the dealer's position, dispense a card
-        self.move_arm(self.currentdealerPosition)
+        self.move_arm(self.initialdealerPosition)
         self.dispense_Card()
 
         # we move the arm the space of a card to the right 
-        self.move_arm(self.currentplayerPosition - self.cardSpacing)
+        self.move_arm(self.initialdealerPosition + self.cardSpacing)
         self.dispense_Card()
         self.move_arm(self.homePosition)
         
@@ -227,10 +230,17 @@ class Blackjack:
         self.get_player_choice_from_buttons()
 
         print("Bets are placed. Game begins now!")
-        self.initialDeal()
+        # We are calling initial deal function to deal cards to player and dealer and we are returning their hands
+        playerHand, dealerHand = game.initialDeal()
+        print("Player hand:",playerHand)
+        print("Dealer hand:",dealerHand)
+
+        # We have returned the hands of the player and dealer as an array of strings
+        # e.g ['Ace', 'King'], now we need to calculate the total of the hand
 
         playerTotal = self.calculate_total(self.playerHand)
         dealerTotal = self.calculate_total(self.dealerHand)
+
         print('player total =',playerTotal)
         print('dealer total =',dealerTotal)
 
