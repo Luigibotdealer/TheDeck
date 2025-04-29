@@ -12,8 +12,8 @@ class Blackjack:
         self.winnings = 0
         self.numPlayerCards = 0
         self.numDealerCards = 0
-        self.initialplayerPosition = 70
-        self.initialdealerPosition = 280
+        self.initialplayerPosition = 80
+        self.initialdealerPosition = 260
         self.currentArmPosition = 0
         self.homePosition = 190.000
         self.initialscoopPosition = 330
@@ -119,7 +119,7 @@ class Blackjack:
         self.dispense_Card()
 
         # we move the arm the space of a card to the right 
-        self.move_arm(self.initialdealerPosition + self.cardSpacing)
+        self.move_arm(self.initialplayerPosition + self.cardSpacing)
         self.dispense_Card()
         self.move_arm(self.homePosition)
         
