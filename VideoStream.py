@@ -26,6 +26,14 @@ class VideoStream:
 
             self.camera.start()
             time.sleep(2)  # warm-up
+
+            self.camera.set_controls({
+                "AeEnable": False,
+                "AwbEnable": False,
+                "AnalogueGain": 1.0,
+                "ExposureTime": 10000,
+            })
+
         except Exception as e:
             print("[VideoStream] ❌ Error during camera init:", e)
             self.camera = None
