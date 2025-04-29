@@ -6,7 +6,8 @@ def handle_keyword(keyword, num_cards):
     if keyword == "run_card_detection":
         print("[server] Running card detection…")
         try:
-            cards = detect_cards(num_cards=num_cards, debug=True)
+            ## LETS CHANGE IT TO NO DEBUG
+            cards = detect_cards(num_cards=num_cards, debug=False)
         except Exception as e:
             print(f"⚠️ [server] Error during detection: {e}")
             return {"status": "error", "message": str(e)}
