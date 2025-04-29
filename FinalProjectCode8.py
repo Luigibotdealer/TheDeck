@@ -12,9 +12,9 @@ class Blackjack:
         self.winnings = 0
         self.numPlayerCards = 0
         self.numDealerCards = 0
-        self.initialplayerPosition = 280
+        self.initialplayerPosition = 70
         self.currentplayerPosition = self.initialplayerPosition
-        self.initialdealerPosition = 70
+        self.initialdealerPosition = 280
         self.currentdealerPosition = self.initialdealerPosition
         self.currentArmPosition = 0
         self.homePosition = 190.000
