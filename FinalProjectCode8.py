@@ -19,7 +19,7 @@ class Blackjack:
         self.currentdealerPosition = self.initialdealerPosition
         self.currentArmPosition = 0
         self.homePosition = 190.000
-        self.initialscoopPosition = 300
+        self.initialscoopPosition = 320
         self.finalscoopPosition = 50
         self.cardSpacing = 15
 
