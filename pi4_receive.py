@@ -14,7 +14,8 @@ def handle_keyword(keyword, num_cards):
 
         if cards:
             print(f"[server] I saw {num_cards} cards:", cards)
-            return {"status": "success", "cards": cards}
+            # IF WE ARE SUCCESSFUL, WE SEND BACK THE CARDS AND ONLY THE CARDS
+            return {cards}
         else:
             print("[server] User aborted or nothing recognised.")
             return {"status": "aborted"}
