@@ -15,12 +15,12 @@ class Blackjack:
         # we want to create a dynamic input to update as the arm moves in the game for the player and the dealer
         self.initialplayerPosition = 260
         self.currentplayerPosition = self.initialplayerPosition
-        self.initialdealerPosition = 60
+        self.initialdealerPosition = 70
         self.currentdealerPosition = self.initialdealerPosition
         self.currentArmPosition = 0
         self.homePosition = 190.000
-        self.initialscoopPosition = 330
-        self.finalscoopPosition = 40
+        self.initialscoopPosition = 300
+        self.finalscoopPosition = 60
         self.cardSpacing = 15
 
         self.arduino = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
@@ -266,6 +266,8 @@ class Blackjack:
             print('make sure cards are in camera area')
             self.playerHand = detect_cards(self.numPlayerCards, debug=True) # pi5 should detect the player's cards
             playerTotal = self.calculate_total(self.playerHand)
+            print("New player hand:",self.dealerHand, "With total:", playerTotal)
+
             if playerTotal == 21:
                 print("You hit 21!")
                 break
@@ -286,22 +288,23 @@ class Blackjack:
             print('make sure cards are in camera area')
             self.dealerHand = send_keyword_to_pi4(keyword="run_card_detection", num_cards=self.numDealerCards,) 
             dealerTotal = self.calculate_total(self.dealerHand)
+            print("New dealer hand:",self.dealerHand, "With total:", playerTotal)
+
             if dealerTotal > 16:
                 break
             else:
                 print("dealer is taking another card.")
-        
-        print("Dealer has finished their turn. Now Scooping up cards. move away from arm. hit any button to continue")
+
+        print("Dealer has finished their turn. Now Calculating Results...")
+        # Prints are within the calculate results function just like distribute winnings
+        self.calculate_results(playerTotal,dealerTotal,playerBet)
         self.get_player_choice_from_buttons()
         self.move_arm(self.initialscoopPosition)
         self.scoop_down()
         self.move_arm(self.finalscoopPosition)
+        print ("Scooped finished")
         self.scoop_up()
         self.move_arm(self.homePosition)
-
-
-        print('Now Calculating Results...')                 #add wait time
-        self.calculate_results(playerTotal,dealerTotal,playerBet)
 
     def main(self):
         # First we prompt the user wether he wants to start a new game or not
