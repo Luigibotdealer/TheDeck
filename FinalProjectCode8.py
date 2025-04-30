@@ -15,12 +15,12 @@ class Blackjack:
         # we want to create a dynamic input to update as the arm moves in the game for the player and the dealer
         self.initialplayerPosition = 260
         self.currentplayerPosition = self.initialplayerPosition
-        self.initialdealerPosition = 70
+        self.initialdealerPosition = 50
         self.currentdealerPosition = self.initialdealerPosition
         self.currentArmPosition = 0
         self.homePosition = 190.000
         self.initialscoopPosition = 300
-        self.finalscoopPosition = 70
+        self.finalscoopPosition = 50
         self.cardSpacing = 15
 
         self.arduino = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
@@ -164,21 +164,19 @@ class Blackjack:
             self.winnings += playerBet
             print('player wins!')
             print('Your winnings =', self.winnings)
-            print('you will not receive your winnings.  move away from arm.  hit any button to continue')
+            print('you will now receive your winnings.  move away from arm.  hit any button to continue')
             self.get_player_choice_from_buttons()
             self.move_arm(self.initialplayerPosition)
             self.dispense_Chips(playerBet)
+            self.move_arm(self.homePosition)
             print('remove winnings from table. then move away from arm. hit any button to continue')
-            self.get_player_choice_from_buttons()
+            #self.get_player_choice_from_buttons()
 
         else:
             self.winnings -= playerBet
             print('player loses :( place bet into pick up area. move away from arm. hit any button to continue')
-            self.get_player_choice_from_buttons()
-            self.move_arm(self.initialscoopPosition)
-            self.scoop_down()
-            self.move_arm(self.finalscoopPosition)
-            self.scoop_up()
+            #self.get_player_choice_from_buttons()
+            #self.scoop_up()
 
     def dispense_Chips(self,playerBet):
         print(f'dispensing {playerBet} chips')
