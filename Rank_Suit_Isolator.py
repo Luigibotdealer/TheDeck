@@ -25,8 +25,10 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 IMG_PATH = os.path.join(SCRIPT_DIR, "Card_Imgs")
 os.makedirs(IMG_PATH, exist_ok=True)
 
-IM_WIDTH, IM_HEIGHT = 1280, 720
-RANK_WIDTH, RANK_HEIGHT = 140, 250
+#IM_WIDTH, IM_HEIGHT = 1280, 720
+IM_WIDTH, IM_HEIGHT = 640, 480
+
+RANK_WIDTH, RANK_HEIGHT = 70, 90
 SUIT_WIDTH, SUIT_HEIGHT = 70, 100
 
 # ---------------------------------------------------------------------------
@@ -144,7 +146,7 @@ def main() -> None:
             # ------------------------------------------------------------------
             # Extract corner, upscale, and threshold
             # ------------------------------------------------------------------
-            corner = warp[0:84, 0:32]
+            corner = warp[0:84, 0:50]
             corner_zoom = cv2.resize(corner, (0, 0), fx=4, fy=4)
             corner_blur = cv2.GaussianBlur(corner_zoom, (5, 5), 0)
             _, corner_thresh = cv2.threshold(
@@ -155,7 +157,7 @@ def main() -> None:
             # Rank or suit isolation
             # ------------------------------------------------------------------
             if counter <= 13:  # ranks A–K
-                sub = corner_thresh[15:200, 0:150]
+                sub = corner_thresh[15:300, 0:200]
                 sub_cnts, _ = cv2.findContours(
                     sub, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE
                 )
