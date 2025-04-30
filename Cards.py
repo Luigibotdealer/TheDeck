@@ -18,7 +18,7 @@ BKG_THRESH = 60
 CARD_THRESH = 30
 
 # Width and height of card corner, where rank and suit are
-CORNER_WIDTH = 32
+CORNER_WIDTH = 50
 CORNER_HEIGHT = 84
 
 # Old Dimensions of rank train images
