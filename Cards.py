@@ -23,7 +23,7 @@ CORNER_HEIGHT = 84
 
 # Old Dimensions of rank train images
 RANK_WIDTH = 70
-RANK_HEIGHT = 125
+RANK_HEIGHT = 90
 
 # New Dimensions of rank train images
 #RANK_WIDTH = 140
