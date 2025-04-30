@@ -20,7 +20,7 @@ class Blackjack:
         self.currentArmPosition = 0
         self.homePosition = 190.000
         self.initialscoopPosition = 300
-        self.finalscoopPosition = 60
+        self.finalscoopPosition = 70
         self.cardSpacing = 15
 
         self.arduino = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
@@ -302,7 +302,6 @@ class Blackjack:
         self.move_arm(self.finalscoopPosition)
         print ("Scooped finished")
         self.scoop_up()
-        self.move_arm(self.homePosition)
 
     def main(self):
         # First we prompt the user wether he wants to start a new game or not
