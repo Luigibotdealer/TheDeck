@@ -170,7 +170,6 @@ class Blackjack:
             self.dispense_Chips(playerBet)
             print('remove winnings from table. then move away from arm. hit any button to continue')
             self.get_player_choice_from_buttons()
-            self.move_arm(self.homePosition)
 
         else:
             self.winnings -= playerBet
@@ -180,7 +179,6 @@ class Blackjack:
             self.scoop_down()
             self.move_arm(self.finalscoopPosition)
             self.scoop_up()
-            self.move_arm(self.homePosition)
 
     def dispense_Chips(self,playerBet):
         print(f'dispensing {playerBet} chips')
