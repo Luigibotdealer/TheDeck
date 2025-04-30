@@ -30,7 +30,7 @@ class VideoStream:
             self.camera.set_controls({
                 "AeEnable": False,
                 "AwbEnable": False,
-                "AnalogueGain": 1.0,
+                "AnalogueGain": 0.8,
                 "ExposureTime": 10000,
             })
 

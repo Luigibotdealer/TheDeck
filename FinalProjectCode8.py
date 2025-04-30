@@ -13,7 +13,7 @@ class Blackjack:
         self.numPlayerCards = 0
         self.numDealerCards = 0
         # we want to create a dynamic input to update as the arm moves in the game for the player and the dealer
-        self.initialplayerPosition = 290
+        self.initialplayerPosition = 280
         self.currentplayerPosition = self.initialplayerPosition
         self.initialdealerPosition = 50
         self.currentdealerPosition = self.initialdealerPosition
