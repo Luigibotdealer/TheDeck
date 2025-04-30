@@ -15,12 +15,12 @@ class Blackjack:
         # we want to create a dynamic input to update as the arm moves in the game for the player and the dealer
         self.initialplayerPosition = 260
         self.currentplayerPosition = self.initialplayerPosition
-        self.initialdealerPosition = 80
+        self.initialdealerPosition = 60
         self.currentdealerPosition = self.initialdealerPosition
         self.currentArmPosition = 0
         self.homePosition = 190.000
         self.initialscoopPosition = 330
-        self.finalscoopPosition = 30
+        self.finalscoopPosition = 40
         self.cardSpacing = 15
 
         self.arduino = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
@@ -119,9 +119,11 @@ class Blackjack:
 
         # Now we move the arm to the dealer's position, dispense a card
         self.move_arm(self.currentdealerPosition)
+
         self.dispense_Card()
 
         self.currentplayerPosition = self.currentplayerPosition - self.cardSpacing
+
         # we move the arm the space of a card to the right 
         self.move_arm(self.currentplayerPosition)
         self.dispense_Card()
@@ -231,6 +233,8 @@ class Blackjack:
 
         playerBet = self.takeBets()
 
+        print("Take your chips off the table. Hit any button to continue")
+
         self.get_player_choice_from_buttons()
 
         print("Bets are placed. Game begins now!")
@@ -252,8 +256,11 @@ class Blackjack:
         print('Do you want to Hit or Stay? (green = hit, red = stay)')
         while self.get_player_choice_from_buttons() == 'green':
             self.numPlayerCards += 1
-            self.move_arm(self.currentplayerPosition)
+
+            # We are updating the current player position from the previous position in initial deal
             self.currentplayerPosition = self.currentplayerPosition - self.cardSpacing
+
+            self.move_arm(self.currentplayerPosition)
             self.dispense_Card()
             self.move_arm(self.homePosition)
             print('make sure cards are in camera area')
@@ -271,8 +278,9 @@ class Blackjack:
         print("ok now the dealer's turn")
         while dealerTotal < 17:
             self.numDealerCards += 1
+            # We are updating the current dealer position from the previous position in initial deal
+            self.currentplayerPosition = self.currentplayerPosition + self.cardSpacing
             self.move_arm(self.currentdealerPosition)
-            self.currentdealerPosition = self.currentdealerPosition + self.cardSpacing
             self.dispense_Card()
             self.move_arm(self.homePosition)
             print('make sure cards are in camera area')
