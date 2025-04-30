@@ -12,8 +12,11 @@ class Blackjack:
         self.winnings = 0
         self.numPlayerCards = 0
         self.numDealerCards = 0
-        self.initialplayerPosition = 80
-        self.initialdealerPosition = 260
+        # we want to create a dynamic input to update as the arm moves in the game for the player and the dealer
+        self.initialplayerPosition = 260
+        self.currentplayerPosition = self.initialplayerPosition
+        self.initialdealerPosition = 80
+        self.currentdealerPosition = self.initialdealerPosition
         self.currentArmPosition = 0
         self.homePosition = 190.000
         self.initialscoopPosition = 330
@@ -111,15 +114,16 @@ class Blackjack:
         self.numDealerCards = 1
 
         # We move the arm to the current player position, dispense a card 
-        self.move_arm(self.initialplayerPosition)
+        self.move_arm(self.currentplayerPosition)
         self.dispense_Card()
 
         # Now we move the arm to the dealer's position, dispense a card
-        self.move_arm(self.initialdealerPosition)
+        self.move_arm(self.currentdealerPosition)
         self.dispense_Card()
 
+        self.currentplayerPosition = self.currentplayerPosition - self.cardSpacing
         # we move the arm the space of a card to the right 
-        self.move_arm(self.initialplayerPosition + self.cardSpacing)
+        self.move_arm(self.currentplayerPosition)
         self.dispense_Card()
         self.move_arm(self.homePosition)
         
@@ -253,7 +257,7 @@ class Blackjack:
             self.dispense_Card()
             self.move_arm(self.homePosition)
             print('make sure cards are in camera area')
-            self.playerHand = self.extract_cards_from_camera(self.numPlayerCards)                 #initial deal as this in brackets
+            self.playerHand = detect_cards(self.numPlayerCards, debug=True) # pi5 should detect the player's cards
             playerTotal = self.calculate_total(self.playerHand)
             if playerTotal == 21:
                 print("You hit 21!")
@@ -272,7 +276,7 @@ class Blackjack:
             self.dispense_Card()
             self.move_arm(self.homePosition)
             print('make sure cards are in camera area')
-            self.dealerHand = self.extract_cards_from_camera(self.numDealerCards)           #this is in brackets in initial deal      
+            self.dealerHand = send_keyword_to_pi4(keyword="run_card_detection", num_cards=self.numDealerCards,) 
             dealerTotal = self.calculate_total(self.dealerHand)
             if dealerTotal > 16:
                 break
