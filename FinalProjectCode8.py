@@ -34,6 +34,7 @@ class Blackjack:
         self.numDealerCards = 0
         self.playerHand = []
         self.dealerHand = []
+        self.winnings = 0
 
     def card_value(self, rank: str) -> int:
         rank_to_value = {
