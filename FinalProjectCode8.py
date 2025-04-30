@@ -301,7 +301,7 @@ class Blackjack:
         print('Are you ready to play? green=yes red=no' )
         newGame = self.get_player_choice_from_buttons().lower()
 
-        while newGame != 'no':
+        while newGame != 'red':
             self.play()
 
             print("Do you want to play another round? green = yes, red = no ")
