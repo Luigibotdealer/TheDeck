@@ -20,13 +20,17 @@ DEFAULT_FPS      = 10
 
 def detect_cards(
         num_cards: int,
+        num_pi: int = 5,
         im_size: tuple[int, int] = DEFAULT_IM_SIZE,
         fps: int = DEFAULT_FPS,
         debug: bool = False
     ) -> list[str] | None:
 
+    if num_pi == 4:
+        im_size = (1280, 720)
+
     # Print statement to see what the camera is seeing 
-    print(f"[detect_cards] Waiting for {num_cards} card(s)…  (debug={debug})")
+    print(f"[detect_cards] Waiting for {num_cards} card(s)…  (debug={debug}, im_size={im_size})")
 
     """
     Blocks until `num_cards` unique cards are recognised.
