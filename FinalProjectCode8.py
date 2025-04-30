@@ -142,7 +142,7 @@ class Blackjack:
         self.playerHand = detect_cards(self.numPlayerCards, debug=True) # pi5 should detect the player's cards
         #! We are adding a stop to change monitors in debug, should be removed in production
         #self.get_player_choice_from_buttons()
-        self.dealerHand = send_keyword_to_pi4(keyword="run_card_detection", num_cards=self.numDealerCards,) 
+        #self.dealerHand = send_keyword_to_pi4(keyword="run_card_detection", num_cards=self.numDealerCards,) 
 
         # Code works up to here for sure 
         return self.playerHand, self.dealerHand
@@ -238,25 +238,24 @@ class Blackjack:
 
         playerBet = self.takeBets()
 
-        print("Take your chips off the table. Hit any button to continue")
+        print("Hit any button to continue")
 
         self.get_player_choice_from_buttons()
 
         print("Bets are placed. Game begins now!")
         # We are calling initial deal function to deal cards to player and dealer and we are returning their hands
-        playerHand, dealerHand = game.initialDeal()
+        playerHand = game.initialDeal()
 
         print("Player hand:",playerHand)
-        print("Dealer hand:",dealerHand)
 
         # We have returned the hands of the player and dealer as an array of strings
         # e.g ['Ace', 'King'], now we need to calculate the total of the hand
 
         playerTotal = self.calculate_total(self.playerHand)
-        dealerTotal = self.calculate_total(self.dealerHand)
+        #dealerTotal = self.calculate_total(self.dealerHand)
 
         print('player total =',playerTotal)
-        print('dealer total =',dealerTotal)
+        #print('dealer total =',dealerTotal)
 
         print('Do you want to Hit or Stay? (green = hit, red = stay)')
         while self.get_player_choice_from_buttons() == 'green':
