@@ -25,6 +25,15 @@ class Blackjack:
 
         self.arduino = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
         time.sleep(2)
+    
+    # Reset positions to initial values after game
+    def reset_positions(self):
+        self.currentplayerPosition = self.initialplayerPosition
+        self.currentdealerPosition = self.initialdealerPosition
+        self.numPlayerCards = 0
+        self.numDealerCards = 0
+        self.playerHand = []
+        self.dealerHand = []
 
     def card_value(self, rank: str) -> int:
         rank_to_value = {
@@ -300,6 +309,8 @@ class Blackjack:
         self.move_arm(self.finalscoopPosition)
         print ("Scooped finished")
         self.scoop_up()
+        # Reset game positions for next round
+        self.reset_positions()
 
     def main(self):
         # First we prompt the user wether he wants to start a new game or not
