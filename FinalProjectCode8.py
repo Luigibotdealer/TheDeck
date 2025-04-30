@@ -279,7 +279,7 @@ class Blackjack:
         while dealerTotal < 17:
             self.numDealerCards += 1
             # We are updating the current dealer position from the previous position in initial deal
-            self.currentplayerPosition = self.currentplayerPosition + self.cardSpacing
+            self.currentdealerPosition = self.currentdealerPosition + self.cardSpacing
             self.move_arm(self.currentdealerPosition)
             self.dispense_Card()
             self.move_arm(self.homePosition)
