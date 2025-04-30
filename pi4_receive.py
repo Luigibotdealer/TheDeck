@@ -12,10 +12,10 @@ def handle_keyword(keyword, num_cards):
             print(f"⚠️ [server] Error during detection: {e}")
             return {"status": "error", "message": str(e)}
 
+        # IF THE SCAN IS SUCCESSFUL, WE RETURN ONLY THE CARDS
         if cards:
             print(f"[server] I saw {num_cards} cards:", cards)
-            # IF WE ARE SUCCESSFUL, WE SEND BACK THE CARDS AND ONLY THE CARDS
-            return {cards}
+            return cards
         else:
             print("[server] User aborted or nothing recognised.")
             return {"status": "aborted"}

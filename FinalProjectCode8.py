@@ -232,6 +232,7 @@ class Blackjack:
         print("Bets are placed. Game begins now!")
         # We are calling initial deal function to deal cards to player and dealer and we are returning their hands
         playerHand, dealerHand = game.initialDeal()
+
         print("Player hand:",playerHand)
         print("Dealer hand:",dealerHand)
 
